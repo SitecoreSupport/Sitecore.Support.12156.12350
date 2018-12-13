@@ -10,11 +10,11 @@ using Sitecore.XA.Foundation.Variants.Abstractions.Services;
 
 namespace Sitecore.Support.XA.Foundation.Variants.Abstractions.Services
 {
-  public class TemplateRenderer : ITemplateRenderer
+  public class TemplateRendererEx : ITemplateRenderer, ITemplateRendererEx
   {
-    private readonly VelocityContext _context;
+    private VelocityContext _context;
 
-    public TemplateRenderer()
+    public TemplateRendererEx()
     {
       Velocity.Init();
       var args = new GetTemplateRenderersPipelineArgs();
@@ -59,6 +59,11 @@ namespace Sitecore.Support.XA.Foundation.Variants.Abstractions.Services
     public virtual void RemoveParameter(string paramKey)
     {
       _context.Remove(paramKey);
+    }
+
+    public void ClearContext()
+    {
+      _context = new VelocityContext();
     }
   }
 }
