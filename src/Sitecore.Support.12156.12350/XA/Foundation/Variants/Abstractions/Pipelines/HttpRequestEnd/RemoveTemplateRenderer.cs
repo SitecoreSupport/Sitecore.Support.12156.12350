@@ -1,6 +1,7 @@
 ﻿using Sitecore.Pipelines;
 using Sitecore.Support.XA.Foundation.Variants.Abstractions.Services;
-using Sitecore.XA.Foundation.IoC;
+using Microsoft.Extensions.DependencyInjection;
+using Sitecore.Diagnostics;
 using Sitecore.XA.Foundation.Variants.Abstractions.Services;
 
 namespace Sitecore.Support.XA.Foundation.Variants.Abstractions.Pipelines.HttpRequestEnd
@@ -9,7 +10,11 @@ namespace Sitecore.Support.XA.Foundation.Variants.Abstractions.Pipelines.HttpReq
   {
     public void Process(PipelineArgs args)
     {
-      (ServiceLocator.Current.Resolve<ITemplateRenderer>() as ITemplateRendererEx).ClearContext();
+      var templateRendererEx =
+        Sitecore.DependencyInjection.ServiceLocator.ServiceProvider.GetService<ITemplateRenderer>() as
+          ITemplateRendererEx;
+      Assert.IsNotNull(templateRendererEx, "Sitecore.Support.12145.12350: templateRendererEx is null");
+      templateRendererEx.ClearContext();
     }
   }
 }
