@@ -1,17 +1,17 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Sitecore.DependencyInjection;
 using Sitecore.Support.XA.Foundation.Variants.Abstractions.Services;
-using Sitecore.XA.Foundation.IOC.Pipelines.IOC;
 using Sitecore.XA.Foundation.Variants.Abstractions.Services;
 
 namespace Sitecore.Support.XA.Foundation.Variants.Abstractions.Pipelines.IoC
 {
-  public class RegisterVariantsAbstractionsServices : IocProcessor
+  public class RegisterVariantsAbstractionsServices : IServicesConfigurator
   {
-    public override void Process(IocArgs args)
+    public void Configure(IServiceCollection serviceCollection)
     {
-      args.ServiceCollection.Remove(new ServiceDescriptor(typeof(ITemplateRenderer), typeof(TemplateRenderer),
+      serviceCollection.Remove(new ServiceDescriptor(typeof(ITemplateRenderer), typeof(TemplateRenderer),
         ServiceLifetime.Singleton));
-      args.ServiceCollection.AddScoped<ITemplateRenderer, TemplateRendererEx>();
+      serviceCollection.AddScoped<ITemplateRenderer, TemplateRendererEx>();
     }
   }
 }
